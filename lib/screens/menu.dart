@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-
-class ItemHomepage {
-  final String name;
-  final IconData icon;
-
-  ItemHomepage(this.name, this.icon);
-}
+import 'package:mental_health_tracker/widgets/left_drawer.dart';
+import 'package:mental_health_tracker/screens/moodentry_form.dart'; // Impor halaman MoodEntryFormPage
+import 'package:mental_health_tracker/widgets/mood_card.dart';
 
 class MyHomePage extends StatelessWidget {
-  MyHomePage({super.key});
+  final String npm = '2306275065'; // NPM
+  final String name = 'Zaneta Octoria'; // Nama
+  final String className = 'PBP E'; // Kelas
 
-  final String npm = '2306275065'; // Ganti dengan NPM Anda
-  final String name = 'Rebecca Zaneta Octoria Hutajulu'; // Ganti dengan Nama Anda
-  final String className = 'PBP E'; // Ganti dengan Kelas Anda
+  MyHomePage({super.key});
 
   final List<ItemHomepage> items = [
     ItemHomepage("Lihat Mood", Icons.mood),
@@ -22,8 +18,10 @@ class MyHomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Scaffold menyediakan struktur dasar halaman dengan AppBar dan body.
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Colors.white),
         title: const Text(
           'Mental Health Tracker',
           style: TextStyle(
@@ -33,6 +31,7 @@ class MyHomePage extends StatelessWidget {
         ),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
+      drawer: const LeftDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -123,9 +122,18 @@ class ItemCard extends StatelessWidget {
         onTap: () {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
-            ..showSnackBar(
-              SnackBar(content: Text("Kamu telah menekan tombol ${item.name}!")),
+            ..showSnackBar(SnackBar(
+                content: Text("Kamu telah menekan tombol ${item.name}!")));
+
+          // Menambahkan navigasi ke halaman yang sesuai
+          if (item.name == "Tambah Mood") {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MoodEntryFormPage(),
+              ),
             );
+          }
         },
         child: Container(
           padding: const EdgeInsets.all(8),
@@ -151,4 +159,11 @@ class ItemCard extends StatelessWidget {
       ),
     );
   }
+}
+
+class ItemHomepage {
+  final String name;
+  final IconData icon;
+
+  ItemHomepage(this.name, this.icon);
 }
